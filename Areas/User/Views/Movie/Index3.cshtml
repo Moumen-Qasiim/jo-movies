@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Movie>
+@using JO_MOVIES.Controllers
+
+@{
+    ViewData["Title"] = "List of Movies";
+}
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+
+            <div class="col-md-4 col-xs-6 mb-3">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-12">
+                            <div class="card-header text-white bg-info">
+                                <h5 class="card-title">
+                                    @item.Name
+
+
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="@item.ImageURL" width="280" alt="@item.Name" class="img-fluid">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card-body">
+                                <p class="card-text">@item.Description</p>
+                                <p class="card-text"><b>Category: </b>@item.MovieCategory</p>
+                                <p class="card-text"><b>Release Date: </b>@item.RelaseDate.ToString("dd MMM yy")</p>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="card-footer">
+                                <a class="btn btn-outline-primary float-right" asp-action="Details" asp-route-id="@item.Id">
+                                    <i class="bi bi-eye-fill"></i> Show Details
+                                </a>
+                                @if (item.RelaseDate > DateTime.Now)
+                                {
+                                    <a class="btn btn-success text-white disabled" href="@item.VidURL">
+                                        <i class="bi bi-tv"></i> Coming soon
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a class="btn btn-success text-white" href="@item.VidURL">
+                                        <i class="bi bi-tv"></i> Watch
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    }
+</div>
+<div>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i>Add Movie</a>
+</div>
+@await Html.PartialAsync("_CreateItem", "Movies")

@@ -1,0 +1,96 @@
+﻿@using JO_MOVIES.Areas.User.Controllers
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Jo-Movies</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-controller="Movie" asp-action="Index">Jo-Movies</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="User" asp-controller="Tickets" asp-action="Index"><i class="bi bi-film"></i> Buy Tickets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="User" asp-controller="Movie" asp-action="Index"><i class="bi bi-film"></i> Watch Movies</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-gear"></i> Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="User" asp-controller="Cinema" asp-action="Index"><i class="bi bi-camera-reels"></i> Cinemas</a>
+                                <a class="dropdown-item" asp-area="User" asp-controller="Producer" asp-action="Index"><i class="bi bi-headset"></i> Producers</a>
+                                <a class="dropdown-item" asp-area="User" asp-controller="Actor" asp-action="Index"><i class="bi bi-person-square"></i> Actors</a>
+                            </div>
+                        </li>
+                    </ul>
+
+                    @{
+                        var currentController = ViewContext.RouteData.Values["controller"].ToString();
+                        var currentAction = ViewContext.RouteData.Values["action"].ToString();
+                    }
+
+                    @if (currentController == "Movie" && currentAction == "Index")
+                    {
+                        <form class="form-inline my-2 my-lg-0" asp-area="User"  asp-controller="Movie" asp-action="Filter">
+                            <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    }
+                    else if (currentController == "Tickets" && currentAction == "Index")
+                    {
+                        <form class="form-inline my-2 my-lg-0" asp-area="User"  asp-controller="Tickets" asp-action="Filter">
+                            <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form class="form-inline my-2 my-lg-0 disabled" asp-area="User"  asp-controller="Movie" asp-action="Filter">
+                            <input name="searchString" type="text" class="form-control" placeholder="Search for a movie..." aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
+                    }
+
+                    <a class="nav-link" asp-area="User"  asp-controller="Account" asp-action="ShopingCart"><i class="bi bi-cart"></i> Cart</a>
+                    <a class="nav-link" asp-area="User"  asp-controller="Account"><i class="bi bi-person-circle"></i> Profile</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+        <!-- Admin-specific layout content -->
+        <header>
+            <!-- Admin header content -->
+        </header>
+        <main>
+            @RenderBody()
+        </main>
+        <footer>
+            <!-- Admin footer content -->
+        </footer>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; @DateTime.Now.Year - Jo-Movies
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

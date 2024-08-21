@@ -1,0 +1,210 @@
+﻿@model Movie
+
+@{
+    ViewBag.Title = "Movie Details";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+</head>
+
+<div class="movie-details">
+    <div class="details-container">
+        <div class="details-image">
+            <img src="@Model.ImageURL" alt="@Model.Name" />
+        </div>
+
+        <div class="details-info">
+            <h2>@Model.Name</h2>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>Release Date:</strong> @Model.RelaseDate.ToString("MMM dd, yyyy")</p>
+
+            <div class="current-rating">
+                <h3>Current Rating:</h3>
+                <div class="star-rating">
+                    <p>@Model.Rate out of 5 based on @Model.TotalVotes votes</p>
+                </div>
+            </div>
+            <div class="star-rating-input">
+                <h3>Rate the Movie : </h3>
+                <div class="star-rating-input">
+                    @for (int i = 1; i <= 5; i++)
+                    {
+                        <a href="#" data-value="@i" class="star"><i class="fas fa-star"></i></a>
+                    }
+                </div>
+            </div>
+
+
+
+            <div class="actors-section">
+                <h3>Actors</h3>
+                <ul>
+                    @foreach (var actorMovie in Model.Actors_Movies)
+                    {
+                        <li>
+                            <img src="@actorMovie.Actor.ProfilePictureURL" alt="@actorMovie.Actor.FullName" class="actor-image" />
+                            @actorMovie.Actor.FullName
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <div class="producer-section">
+                <pre> <h3>Producer :  </h3></pre>
+                <img src="@Model.Producer?.PictureURL" alt="@Model.Producer?.FullName" class="producer-image" />
+                <p>@Model.Producer?.FullName</p>
+            </div>
+
+            <a asp-action="Watch" asp-controller="Movie" asp-area="User" asp-route-id="@Model.Id" class="watch-button">Watch Movie</a>
+        </div>
+    </div>
+</div>
+<style>
+    .star-rating-input {
+        display: inline-block;
+        font-size: 0;
+    }
+
+        .star-rating-input .star {
+            font-size: 30px;
+            color: #ccc; /* Default color of the stars */
+            text-decoration: none; /* Remove underline from the anchor */
+            transition: color 0.3s, text-shadow 0.3s; /* Transition effect for glow */
+            margin-right: 5px;
+        }
+
+            .star-rating-input .star:hover,
+            .star-rating-input .star:hover ~ .star {
+                color: #FFD700; /* Gold color when hovering */
+                text-shadow: 0 0 10px rgba(255, 215, 0, 0.8); /* Glowing effect */
+            }
+
+                .star-rating-input .star:hover ~ .star {
+                    color: #ccc; /* Reset the color of previous stars */
+                }
+
+            .star-rating-input .star:focus {
+                outline: none; /* Remove focus outline */
+            }
+
+    .movie-details {
+        max-width: 1000px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .details-container {
+        display: flex;
+        align-items: flex-start;
+    }
+
+    .details-image {
+        flex: 1;
+        max-width: 300px;
+    }
+
+        .details-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+    .details-info {
+        flex: 2;
+        padding-left: 30px;
+    }
+
+        .details-info h2 {
+            color: #444;
+            margin-bottom: 10px;
+        }
+
+        .details-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+    .rating-section, .actors-section, .producer-section {
+        margin-bottom: 20px;
+    }
+
+    .star-rating {
+        direction: rtl;
+        font-size: 0;
+    }
+
+        .star-rating input {
+            display: none;
+        }
+
+        .star-rating label {
+            font-size: 30px;
+            color: #ccc;
+            cursor: pointer;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+
+            .star-rating input:checked ~ label,
+            .star-rating label:hover,
+            .star-rating label:hover ~ label {
+                color: #f39c12;
+            }
+
+    .actor-image, .producer-image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .actors-section ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .actors-section li, .producer-section {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .rate-button, .watch-button {
+        display: inline-block;
+        color: #fff;
+        background-color: #007BFF;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .watch-button {
+        background-color: #dc3545;
+    }
+
+    .rate-button:hover {
+        background-color: #0056b3;
+    }
+
+    .watch-button:hover {
+        background-color: #c82333;
+    }
+
+</style>
+<script>
+    document.querySelectorAll('.star-rating-input .star').forEach(star => {
+    star.addEventListener('click', function(event) {
+        event.preventDefault();
+        let rating = this.getAttribute('data-value');
+        // Handle the rating submission logic here
+        console.log('User rated: ' + rating);
+    });
+});
+
+</script>

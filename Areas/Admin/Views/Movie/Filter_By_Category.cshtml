@@ -1,0 +1,94 @@
+﻿@using JO_MOVIES.Data.ViewModels
+@model FilterMovieViewModel
+
+
+
+<h1>Manage  @Model.MovieCategory Movies</h1>
+
+<p>
+
+        <a asp-action="Create" asp-controller="Movie" >Create New</a>
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                ImageURL
+            </th>
+            <th>
+                VidURL
+            </th>
+            <th>
+                Trailer
+            </th>
+            <th>
+                RelaseDate
+            </th>
+            <th>
+                MovieCategory
+            </th>
+            <th>
+                Rate
+            </th>
+            <th>
+                TotalVotes
+            </th>
+            <th>
+                Action
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if(Model.Movies != null)
+        @foreach (var item in Model.Movies)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ImageURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VidURL)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trailer)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RelaseDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MovieCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalVotes)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        else
+        {
+            <h>No Items</h>
+        }
+    </tbody>
+</table>
+

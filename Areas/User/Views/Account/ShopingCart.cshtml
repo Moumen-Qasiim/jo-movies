@@ -1,0 +1,167 @@
+﻿@model List<Ticket>
+
+<!-- Include necessary CSS and JS links -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    /* Additional CSS styles specific to your view can go here */
+    .movie-item {
+        padding: 10px;
+    }
+
+    .movie-item .quantity-input {
+        width: 50px;
+        display: inline-block;
+    }
+
+    .movie-item .delete-button {
+        cursor: pointer;
+        color: red;
+        float: right;
+        margin-top: -10px;
+        margin-right: -5px;
+    }
+
+    .movie-item .delete-button:hover {
+        color: darkred;
+    }
+
+    .title {
+        margin-bottom: 2rem; /* Adjust margin as needed */
+    }
+
+    .summary {
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin-top: 1rem; /* Adjust top margin */
+    }
+
+    .summary h5 {
+        font-size: 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .summary .total-price {
+        font-weight: bold;
+        font-size: 1.5rem; /* Increase font size for total price */
+    }
+
+    .card {
+        margin: auto;
+        max-width: 1000px; /* Adjusted max-width */
+        width: 100%;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        border-radius: 1rem;
+        border: transparent;
+        padding: 1.5rem; /* Add padding to the card */
+        position: relative; /* Ensure the card can be the containing block for absolutely positioned elements */
+    }
+
+    .back-to-shop {
+        position: absolute; /* Position the link absolutely */
+        bottom: 0px; /* Adjust bottom position as needed */
+        left: 10px; /* Adjust left position as needed */
+        text-decoration: none;
+        color: #007bff;
+        font-weight: bold;
+    }
+
+    .back-to-shop:hover {
+        color: #0056b3;
+        text-decoration: underline;
+    }
+
+    media (max-width: 768px) {
+        .card {
+            width: 100%;
+        }
+    }
+
+    /* New styles for the scrollable movie list */
+    .scrollable-panel {
+        max-height: 400px; /* Adjust as needed */
+        overflow-y: auto;
+        overflow-x: hidden; /* Hide horizontal scrollbar */
+        padding-right: 10px; /* Adjust for scrollbar */
+    }
+</style>
+
+<body>
+
+<div class="container mt-4">
+    <!-- Adjust top margin as needed -->
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <h4 class="mb-4"><b>Shopping Cart</b></h4>
+                </div>
+                <div id="movieList" class="scrollable-panel">
+                  
+
+                    @foreach (var movie in Model)
+                    {
+
+                        <div class="row main align-items-center movie-item">
+                            <div class="col-2"><img class="img-fluid" src="@movie.ImageURL"></div>
+                            <div class="col">
+                                <div class="row"><strong>@movie.Name</strong></div>
+                                <div class="row">Price: &euro; @movie.Price.ToString("0.00")</div>
+                                <div class="row">
+                                    Quantity:
+                                    <input type="number" min="1" value="1" id="quantity_@movie.Id" class="form-control quantity-input">
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <a class="delete-button" asp-action="DeleteTicketItem" asp-route-id="@movie.Id"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+                        <hr>
+                        
+                    }
+                    
+                </div>
+                
+                <a href="/shop" class="back-to-shop">← Back to shop</a>
+            </div>
+            
+
+            <div class="col-md-4 summary">
+                <div><h5><b>Summary</b></h5></div>
+                <hr>
+                <div class="row mb-4">
+                    <div class="col">ITEMS <span id="itemCount">@Model.Count</span></div>
+                    <div class="col text-right"><span id="totalPrice">&euro; @(Model.Sum(m => m.Price).ToString("0.00"))</span></div>
+                </div>
+                <form>
+                    <p>SHIPPING</p>
+                    <select class="form-control mb-4">
+                        <option class="text-muted">Standard Delivery - &euro;5.00</option>
+                    </select>
+                    <p>GIVE CODE</p>
+                    <input id="code" class="form-control mb-4" placeholder="Enter your code">
+                </form>
+                <div class="row border-top pt-3">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right total-price">&euro; @(Model.Sum(m => m.Price).ToString("0.00"))</div>
+                </div>
+                <a asp-action="AddOwnedItem" asp-controller="Account" class="btn btn-dark mt-4">CHECKOUT</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    // Function to remove movie from cart
+    function removeFromCart(movieId) {
+        // Implement your logic to remove movie from cart
+        console.log(`Removing movie ${movieId} from cart`);
+        // Optionally, you can remove the HTML element from the view after confirmation
+        $(`#quantity_${movieId}`).closest('.movie-item').remove();
+    }
+</script>

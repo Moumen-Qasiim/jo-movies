@@ -1,0 +1,82 @@
+﻿@using JO_MOVIES.Data.ViewModels
+@model LoginVM
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<body>
+    <div id="login">
+        <h3 class="text-center text-white pt-5">Login form</h3>
+        <div class="container">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="login-column" class="col-md-6">
+                    <div id="login-box" class="col-md-12">
+                        <form id="login-form" asp-action="Login" asp-controller="Account" method="post" class="form">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <h3 class="text-center text-info">Login</h3>
+                            <div class="form-group">
+                                <label asp-for="EmailAddress" class="text-info"></label>
+                                <input asp-for="EmailAddress" class="form-control" />
+                                <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label asp-for="Password" class="text-info"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" asp-for="RememberMe" /> Remember me
+                                </label>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-info btn-md" value="Submit" />
+                            </div>
+
+                            <div id="register-link" class="text-right">
+                                <a asp-action="SignUp" class="text-info">Register here</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #17a2b8;
+        height: 100vh;
+    }
+
+    #login .container #login-row #login-column #login-box {
+        margin-top: 80px; /* Adjusted margin top */
+        max-width: 600px;
+        height: auto; /* Changed height to auto to accommodate content */
+        border: 1px solid #9C9C9C;
+        background-color: #EAEAEA;
+        padding: 30px; /* Added padding for inner content */
+        border-radius: 10px; /* Rounded corners for the box */
+    }
+
+        #login .container #login-row #login-column #login-box #login-form {
+            padding: 20px;
+        }
+
+            #login .container #login-row #login-column #login-box #login-form .form-group {
+                margin-bottom: 20px; /* Increased margin bottom for form groups */
+            }
+
+            #login .container #login-row #login-column #login-box #login-form #register-link {
+                margin-top: 10px; /* Adjusted margin top for register link */
+            }
+</style>

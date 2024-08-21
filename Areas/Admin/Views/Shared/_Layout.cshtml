@@ -1,0 +1,167 @@
+﻿@using JO_MOVIES.Data.Enum
+@using JO_MOVIES.Areas.User.Controllers
+@using Microsoft.AspNetCore.Http
+@{
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Jo-Movies</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css">
+    <a href="/Filter/Filter_By_Category?movieCategory=Action&movieType=Ticket">Action</a>
+    <a href="/Filter/Filter_By_Category?movieCategory=Comedy&movieType=Ticket">Comedy</a>
+    <a href="/Filter/Filter_By_Category?movieCategory=Drama&movieType=Ticket">Drama</a>
+
+    <style>
+        body {
+            display: flex;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: #343a40;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+            #sidebar .nav-link {
+                color: #fff;
+            }
+
+                #sidebar .nav-link:hover {
+                    background: #495057;
+                }
+
+            #sidebar .collapse-inner a {
+                padding: 0.5rem 1.5rem;
+            }
+
+        #content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar" class="bg-dark">
+        <div class="sidebar-header text-center py-4">
+            <h4>Jo-Movies</h4>
+        </div>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#collapseMovies" role="button" aria-expanded="false" aria-controls="collapseMovies">
+                    - Movies -
+                </a>
+                <div class="collapse" id="collapseMovies">
+                    <div class="bg-dark collapse-inner">
+                        <a class="nav-link" asp-area="Admin" asp-action="Index" asp-controller="Movie">View All Movies</a>
+                        @{
+                            var categories = Enum.GetValues(typeof(MovieCategory)).Cast<MovieCategory>().ToList();
+                            @foreach (var MovieCategory in categories)
+                            {
+                                <a asp-area="Admin"  asp-action="Filter_By_Category" asp-controller="Movie" asp-route-MovieCategory="@MovieCategory">@MovieCategory</a>
+                            }
+                        }
+                    </div>
+                </div>
+            </li>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#collapseMovies" role="button" aria-expanded="false" aria-controls="collapseMovies">
+                        - Tickets -
+                    </a>
+                    <div class="collapse" id="collapseMovies">
+                        <div class="bg-dark collapse-inner">
+                            <a class="nav-link" asp-area="Admin" asp-action="Index" asp-controller="Tickets">View All Tickets</a>
+                            @{
+                               
+                                @foreach (var MovieCategory in categories)
+                                {
+                                    <a asp-area="Admin" asp-action="Filter_By_Category" asp-controller="Tickets" asp-route-MovieCategory="@MovieCategory" >@MovieCategory</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </li>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#collapseMovies" role="button" aria-expanded="false" aria-controls="collapseMovies">
+                            - Users -
+                        </a>
+                        <div class="collapse" id="collapseMovies">
+                            <div class="bg-dark collapse-inner">
+                                <a class="nav-link" asp-area="Admin"  asp-action="Index" asp-controller="Users">View All Users</a>
+                                <a class="nav-link" asp-area="Admin"  asp-action="get_Admins" asp-controller="Users">View All Admins</a>
+                                <a class="nav-link" asp-area="Admin"  asp-action="get_Users" asp-controller="Users">View All Normal User</a>
+                            </div>
+                        </div>
+                    </li>
+                <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin"  asp-action="Index" asp-controller="Actor">
+                        <i class="bi bi-building"></i> Actors
+                    </a>
+                </li>
+                <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin"  asp-action="Index" asp-controller="Producer">
+                        <i class="bi bi-building"></i> Proudcers
+                    </a>
+                </li>
+               
+            <li class="nav-item">
+                        <a class="nav-link" asp-area="Admin"  asp-action="Index" asp-controller="Cinema">
+                    <i class="bi bi-building"></i> Cinemas
+                </a>
+            </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-action="Index" asp-controller="Tickets">
+                            <i class="bi "></i> User Dashbord
+                        </a>
+                    </li>
+                    
+
+
+            <!-- Add more items here as needed -->
+        </ul>
+    </div>
+
+    <div id="content">
+        <header>
+            <!-- Your header content here -->
+        </header>
+
+            <!-- Admin-specific layout content -->
+            <header>
+                <!-- Admin header content -->
+            </header>
+            <main>
+                @RenderBody()
+            </main>
+            <footer>
+                <!-- Admin footer content -->
+            </footer>
+
+
+        <footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; Jo-Movies @DateTime.Now.Year
+            </div>
+        </footer>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

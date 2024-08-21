@@ -1,0 +1,125 @@
+﻿@model IEnumerable<Movie>
+@using JO_MOVIES.Controllers
+
+
+@{
+    ViewBag.Title = "Movies";
+}
+
+<h2>Movies</h2>
+<style>
+    /* General styles */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+        margin-top: 20px;
+    }
+
+    /* Container for the grid */
+    .movie-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusted the min width to 250px */
+        gap: 20px;
+        padding: 20px;
+        max-width: 1200px; /* Limit the maximum width of the grid */
+        margin: 0 auto; /* Center the grid */
+    }
+
+    /* Movie card styles */
+    .movie-card {
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .movie-card:hover {
+            transform: scale(1.05);
+        }
+
+    .movie-image {
+        width: 100%;
+        height: 200px; /* Adjusted the height to make cards more uniform */
+        object-fit: cover;
+    }
+
+    .movie-info {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-grow: 1;
+    }
+
+        .movie-info h3 {
+            margin: 0 0 10px;
+            color: #444;
+        }
+
+        .movie-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+    .trailer-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #fff;
+        background-color: #007BFF;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .trailer-link:hover {
+            background-color: #0056b3;
+        }
+
+    .details-link {
+        display: inline-block;
+        margin-top: 10px;
+        color: #fff;
+        background-color: #28a745;
+        padding: 10px 15px;
+        border-radius: 5px;
+        text-decoration: none;
+        text-align: center;
+    }
+
+        .details-link:hover {
+            background-color: #218838;
+        }
+
+</style>
+
+
+<div class="movie-grid">
+    @foreach (var movie in Model)
+    {
+        <div class="movie-card">
+            <img src="@movie.ImageURL" alt="@movie.Name" class="movie-image" />
+            <div class="movie-info">
+                <h3>@movie.Name</h3>
+                <p>@movie.Description</p>
+                <p><strong>Release Date:</strong> @movie.RelaseDate.ToString("MMM dd, yyyy")</p>
+                <p><strong>Rate:</strong> @movie.Rate</p>
+                <p><strong>Total Votes:</strong> @movie.TotalVotes</p>
+                <a href="@Url.Action("Details", "Movie", new { id = movie.Id })" class="details-link">Details</a> <!-- Details Button -->
+            </div>
+        </div>
+    }
+</div>
+
+@await Html.PartialAsync("_CreateItem", "Movies") 
+
